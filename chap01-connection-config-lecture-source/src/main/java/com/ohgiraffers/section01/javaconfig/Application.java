@@ -29,6 +29,7 @@ public class Application {
         /* 설명. Environment 설정 */
         Environment environment = new Environment(
                                                 "dev",
+                                                /* 필기. ManagedTransactionFactory는 자동 커밋이나, openSession(false)가 수동 커밋이므로 MTF로 바꿔도 수동 커밋이다. */
                                                 new JdbcTransactionFactory(),
                                                 new PooledDataSource(driver, url, user, password)
                                                 );
@@ -38,7 +39,7 @@ public class Application {
 
         /* 필기.
         *   SqlSessionFactory: SqlSession 객체를 생성하기 위한 팩토리 역할의 인터페이스
-        *   SqlSessionFactoryBuilder: SqlSessionFactory 인터페이스 타입의 하우 ㅣ구현 객체를 생성하기 위한 빌드 역할
+        *   SqlSessionFactoryBuilder: SqlSessionFactory 인터페이스 타입의 하위 구현 객체를 생성하기 위한 빌드 역할
         *   build(): 설정에 대한 정보를 담고 있는 Configuration 타입의 객체 혹은 외부 설정 파일과 연결된
         *            stream을 매개변수로 전달하면 SqlSessionFactory 인터페이스 타입의 객체를 반환하는 메소드
         * */
