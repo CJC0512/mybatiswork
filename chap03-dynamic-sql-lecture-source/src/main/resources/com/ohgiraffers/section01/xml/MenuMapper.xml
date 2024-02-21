@@ -36,7 +36,7 @@
                 3. lt(<): less than
                 4. lte(<=): less than equal
                 5. eq(==): equal
-                6. ne(!=): not equal
+                6. neq(!=): not equal
         -->
         <if test="maxPrice gte 0 and maxPrice lte 10000">
             <!-- CDATA로 감싸줘야 <(부등호)가 문자로 인식됨 -->
@@ -106,9 +106,7 @@
              , A.CATEGORY_CODE
              , A.ORDERABLE_STATUS
           FROM TBL_MENU A
-         WHERE
-                <!--A.ORDERABLE_STATUS = 'Y' AND--> <!-- 무작위 값 출력 미반영으로 인한 주석 처리 -->
-               A.MENU_CODE IN
+         WHERE A.MENU_CODE IN
 
         <!-- 설명. list 또는 map과 같은 컬렉션 타입으로 넘어온 값을 가지고 반복해서 원하는 sql을 작성할 수 있다. -->
         <foreach collection="list"
@@ -122,4 +120,74 @@
 <!--            #{menuCode}-->
 <!--        </foreach>-->
     </select>
+
+    <select id="searchMenuByCodeOrSearchAll"
+            parameterType="com.ohgiraffers.section01.xml.SearchCriteria"
+            resultMap="menuResultMap">
+        SELECT
+               A.MENU_CODE
+             , A.MENU_NAME
+             , A.MENU_PRICE
+             , A.CATEGORY_CODE
+             , A.ORDERABLE_STATUS
+          FROM TBL_MENU A
+<!--        <if test="condition neq null and condition eq 'menuCode'">-->
+        <if test="condition != null and condition == 'menuCode'">
+            WHERE A.MENU_CODE = #{value}
+<!--              AND A.MENU_NAME like '%'붕어'%'-->
+<!--              AND A.CATEGORY_CODE = 2-->
+<!--              AND A.ORDERABLE_STATUS = 'Y'-->
+        </if>
+    </select>
+
+    <select id="searchMenuByNameOrCategory" parameterType="hashmap" resultMap="menuResultMap">
+        SELECT
+              A.MENU_CODE
+            , A.MENU_NAME
+            , A.MENU_PRICE
+            , A.CATEGORY_CODE
+            , A.ORDERABLE_STATUS
+         FROM TBL_MENU A
+        <!-- where는 AND 적어야 함.-->
+<!--        <where>
+            <if test="nameValue != null">
+                A.MENU_NAME LIKE CONCAT('%' #{nameValue} '%')
+            </if>
+            <if test="categoryValue != null">
+                AND A.CATEGORY_CODE = #{categoryValue}
+            </if>
+        </where>-->
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="nameValue != null">
+                A.MENU_NAME LIKE CONCAT('%' #{nameValue} '%')
+            </if>
+            <if test="categoryValue != null">
+                AND A.CATEGORY_CODE = #{categoryValue}
+            </if>
+        </trim>
+    </select>
+
+    <update id="updateMenu" parameterType="hashmap">
+        UPDATE
+               TBL_MENU
+       <!-- <set>
+            <if test="menuName != null and menuName != ''">
+                MENU_NAME = #{menuName}
+            </if>
+            <if test="orderableStatus != null and orderableStatus != ''">
+                , ORDERABLE_STATUS = #{orderableStatus}
+            </if>
+        </set>-->
+
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="menuName != null and menuName != ''">
+                MENU_NAME = #{menuName}
+            </if>
+            <if test="orderableStatus != null and orderableStatus != ''">
+                , ORDERABLE_STATUS = #{orderableStatus}
+            </if>
+        </trim>
+         WHERE MENU_CODE = #{menuCode}
+    </update>
 </mapper>
