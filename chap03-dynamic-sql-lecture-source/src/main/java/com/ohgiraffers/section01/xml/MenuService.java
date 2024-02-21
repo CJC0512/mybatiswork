@@ -16,4 +16,14 @@ public class MenuService {
         System.out.println("[Service]");
         menus.forEach(System.out :: println);
     }
+
+    public void searchMenu(SearchCriteria searchCriteria) {
+
+        SqlSession sqlSession = getSqlSession();
+        MenuMapper mapper = sqlSession.getMapper(MenuMapper.class);
+
+        List<MenuDTO> menus = mapper.searchMenu(searchCriteria);
+        System.out.println("[Service]");
+        menus.forEach(System.out::println);
+    }
 }
