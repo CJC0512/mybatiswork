@@ -32,7 +32,7 @@
         <result property="orderableStatus" column="ORDERABLE_STATUS"/>
         <association property="category" resultMap="categoryResultMap"/>
 
-        <!-- 필기. 다음과 같이 resultMap의 association안에 직접 id와 result를 넣을 수도 있다. -->
+        <!-- 필기. 다음과 같이 resultMap의 association(javaType 주의!)안에 직접 id와 result를 넣을 수도 있다. -->
 <!--        <association property="category" javaType="com.ohgiraffers.section01.xmlmapper.CategoryDTO">-->
 <!--            <id property="categoryCode" column="CATEGORY_CODE"/>-->
 <!--            <result property="categoryName" column="CATEGORY_NAME"/>-->
@@ -65,7 +65,7 @@
         <result property="refCategoryCode" column="REF_CATEGORY_CODE"/>
         <collection property="menus" resultMap="menuResultMap"/>
 
-        <!-- 필기. 마찬가지로 resultMap의 collection안에 직접 id와 result를 넣을 수도 있다. -->
+        <!-- 필기. 마찬가지로 resultMap의 collection(ofType 주의!)안에 직접 id와 result를 넣을 수도 있다. -->
 <!--        <collection property="menus" ofType="com.ohgiraffers.section01.xmlmapper.MenuDTO">-->
 <!--            <id property="menuCode" column="MENU_CODE"/>-->
 <!--            <result property="menuName" column="MENU_NAME"/>-->

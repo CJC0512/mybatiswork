@@ -7,6 +7,7 @@ public class CategoryDTO {
     /* 필기. null 값도 받아올 수 있기에 Integer로 선언 */
     private Integer refCategoryCode;
 
+    /* 필기. mybatis가 DTO를 사용하려면 기본 생성자가 있어야 한다. (그냥 습관화하자.)  */
     public CategoryDTO() {
     }
 
